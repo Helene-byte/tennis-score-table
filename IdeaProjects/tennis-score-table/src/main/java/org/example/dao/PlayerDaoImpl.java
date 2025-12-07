@@ -1,6 +1,6 @@
 package org.example.dao;
 
-import org.example.model.Player;
+import org.example.model.entity.Player;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 

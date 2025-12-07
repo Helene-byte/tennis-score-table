@@ -1,6 +1,6 @@
 package org.example.dao;
 
-import org.example.model.Match;
+import org.example.model.entity.Match;
 
 import java.util.List;
 
