@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.model.dto.MatchScoreModel;
+import org.example.model.dto.OngoingMatch;
 import org.example.service.MatchScoreCalculationService;
 import org.example.service.OngoingMatchesService;
 
@@ -23,9 +24,15 @@ public class MatchScoreServlet extends HttpServlet {
             UUID matchId = UUID.fromString(uuidStr);
 
             // Получить матч и счет
-            MatchScoreModel score = ongoingMatchesService.getMatch(matchId).getScore();
-            String player1Name = ongoingMatchesService.getMatch(matchId).getPlayer1().getName();
-            String player2Name = ongoingMatchesService.getMatch(matchId).getPlayer2().getName();
+            OngoingMatch ongoingMatch = ongoingMatchesService.getOngoingMatch(matchId);
+            if (ongoingMatch == null) {
+                // handle error: match not found
+                resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Match not found");
+                return;
+            }
+            MatchScoreModel score = ongoingMatch.getScore();
+            String player1Name = ongoingMatch.getMatch().getPlayer1().getName();
+            String player2Name = ongoingMatch.getMatch().getPlayer2().getName();
 
             req.setAttribute("score", score);
             req.setAttribute("player1Name", player1Name);
@@ -42,7 +49,13 @@ public class MatchScoreServlet extends HttpServlet {
             int
                     winner = Integer.parseInt(req.getParameter("winner"));
 
-            MatchScoreModel score = ongoingMatchesService.getMatch(matchId).getScore();
+            OngoingMatch ongoingMatch = ongoingMatchesService.getOngoingMatch(matchId);
+            if (ongoingMatch == null) {
+                // handle error: match not found
+                resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Match not found");
+                return;
+            }
+            MatchScoreModel score = ongoingMatch.getScore();
             scoreService.pointWon(score, winner);
 
             // Если матч завершён, можно добавить логику сохранения в БД и удаления из ongoingMatchesService
