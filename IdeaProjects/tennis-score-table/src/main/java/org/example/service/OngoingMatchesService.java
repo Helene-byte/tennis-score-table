@@ -22,8 +22,4 @@ public class OngoingMatchesService {
     public void removeMatch(UUID matchId) {
         ongoingMatches.remove(matchId);
     }
-
-    public boolean containsMatch(UUID matchId) {
-        return ongoingMatches.containsKey(matchId);
-    }
 }
