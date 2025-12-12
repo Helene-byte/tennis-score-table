@@ -1,6 +1,5 @@
 package org.example.servlet;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,52 +13,41 @@ import java.io.IOException;
 import java.util.UUID;
 
 @WebServlet("/match-score")
+
 public class MatchScoreServlet extends HttpServlet {
-        private OngoingMatchesService ongoingMatchesService = new OngoingMatchesService();
-        private MatchScoreCalculationService scoreService = new MatchScoreCalculationService();
+    private OngoingMatchesService ongoingMatchesService = new OngoingMatchesService();
+    private MatchScoreCalculationService scoreService = new MatchScoreCalculationService();
 
-        @Override
-        protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            String uuidStr = req.getParameter("uuid");
-            UUID matchId = UUID.fromString(uuidStr);
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String uuidStr = req.getParameter("uuid");
+        UUID matchId = UUID.fromString(uuidStr);
 
-            // Получить матч и счет
-            OngoingMatch ongoingMatch = ongoingMatchesService.getOngoingMatch(matchId);
-            if (ongoingMatch == null) {
-                // handle error: match not found
-                resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Match not found");
-                return;
-            }
-            MatchScoreModel score = ongoingMatch.getScore();
-            String player1Name = ongoingMatch.getMatch().getPlayer1().getName();
-            String player2Name = ongoingMatch.getMatch().getPlayer2().getName();
-
-            req.setAttribute("score", score);
-            req.setAttribute("player1Name", player1Name);
-            req.setAttribute("player2Name", player2Name);
-            req.setAttribute("matchId", matchId);
-
-            req.getRequestDispatcher("/match-score.jsp").forward(req, resp);
+        OngoingMatch ongoingMatch = ongoingMatchesService.getOngoingMatch(matchId);
+        if (ongoingMatch == null) {
+            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            resp.getWriter().write("{\"error\": \"Match not found\"}");
+            return;
         }
+        MatchScoreModel score = ongoingMatch.getScore();
+        new com.fasterxml.jackson.databind.ObjectMapper().writeValue(resp.getWriter(), score);
+    }
 
-        @Override
-        protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            String uuidStr = req.getParameter("uuid");
-            UUID matchId = UUID.fromString(uuidStr);
-            int
-                    winner = Integer.parseInt(req.getParameter("winner"));
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String uuidStr = req.getParameter("uuid");
+        UUID matchId = UUID.fromString(uuidStr);
+        int winner = Integer.parseInt(req.getParameter("winner"));
 
-            OngoingMatch ongoingMatch = ongoingMatchesService.getOngoingMatch(matchId);
-            if (ongoingMatch == null) {
-                // handle error: match not found
-                resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Match not found");
-                return;
-            }
-            MatchScoreModel score = ongoingMatch.getScore();
-            scoreService.pointWon(score, winner);
-
-            // Если матч завершён, можно добавить логику сохранения в БД и удаления из ongoingMatchesService
-
-            resp.sendRedirect("match-score?uuid=" + matchId);
+        OngoingMatch ongoingMatch = ongoingMatchesService.getOngoingMatch(matchId);
+        if (ongoingMatch == null) {
+            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            resp.getWriter().write("{\"error\": \"Match not found\"}");
+            return;
         }
+        MatchScoreModel score = ongoingMatch.getScore();
+        scoreService.pointWon(score, winner);
+
+        new com.fasterxml.jackson.databind.ObjectMapper().writeValue(resp.getWriter(), score);
+    }
 }
