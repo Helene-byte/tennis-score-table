@@ -1,14 +1,16 @@
 package org.example.servlet;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.exception.BadRequestException;
-import org.example.model.dto.MatchScoreModel;
+import org.example.model.dto.MatchScore;
 import org.example.model.dto.OngoingMatch;
-import org.example.service.MatchScoreCalculationService;
+import org.example.service.FinishedMatchesPersistenceService;
 import org.example.service.OngoingMatchesService;
+import org.hibernate.SessionFactory;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -16,8 +18,14 @@ import java.util.UUID;
 @WebServlet("/match-score")
 
 public class MatchScoreServlet extends HttpServlet {
-    private OngoingMatchesService ongoingMatchesService = new OngoingMatchesService();
-    private MatchScoreCalculationService scoreService = new MatchScoreCalculationService();
+    private OngoingMatchesService ongoingMatchesService;
+    private FinishedMatchesPersistenceService finishedMatchesService;
+    @Override
+    public void init() throws ServletException {
+        ongoingMatchesService = (OngoingMatchesService) getServletContext().getAttribute("ongoingMatchesService");
+        SessionFactory sessionFactory = (SessionFactory) getServletContext().getAttribute("sessionFactory");
+        finishedMatchesService = new FinishedMatchesPersistenceService(sessionFactory);
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -33,7 +41,7 @@ public class MatchScoreServlet extends HttpServlet {
             resp.getWriter().write("{\"error\": \"Match not found\"}");
             return;
         }
-        MatchScoreModel score = ongoingMatch.getScore();
+        MatchScore score = ongoingMatch.getScore();
         new com.fasterxml.jackson.databind.ObjectMapper().writeValue(resp.getWriter(), score);
     }
 
@@ -49,8 +57,18 @@ public class MatchScoreServlet extends HttpServlet {
             resp.getWriter().write("{\"error\": \"Match not found\"}");
             return;
         }
-        MatchScoreModel score = ongoingMatch.getScore();
-        scoreService.pointWon(score, winner);
+        MatchScore score = ongoingMatch.getScore();
+        score.pointWon(winner);
+
+        // --- NEW: Save finished match to DB and remove from ongoing matches ---
+        if (score.isFinished()) {
+            // Set the winner in the Match entity if needed
+            ongoingMatch.getMatch().setWinner(
+                    winner == 1 ? ongoingMatch.getMatch().getPlayer1() : ongoingMatch.getMatch().getPlayer2()
+            );
+            finishedMatchesService.saveFinishedMatch(ongoingMatch.getMatch());
+            ongoingMatchesService.removeMatch(matchId);
+        }
 
         new com.fasterxml.jackson.databind.ObjectMapper().writeValue(resp.getWriter(), score);
     }

@@ -1,48 +1,94 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html lang="ru">
+<%@ taglib uri="http://jakarta.ee/jstl/core" prefix="c" %>
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Завершённые матчи</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tennis Scoreboard | Finished Matches</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    <style>
-        .container { max-width: 700px; margin: 40px auto; background: #fff; padding: 24px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);}
-        h2 { text-align: center; }
-        table { width: 100%; border-collapse: collapse; margin-bottom: 20px;}
-        th, td { border: 1px solid #ccc; padding: 8px; text-align: center;}
-        .search-form { margin-bottom: 20px; display: flex; gap: 10px; justify-content: center; }
-        .search-form input[type="text"] { padding: 6px; border-radius: 4px; border: 1px solid #ccc; }
-        .search-form button { padding: 6px 16px; border-radius: 4px; border: none; background: #007bff; color: #fff; cursor: pointer; }
-        .search-form button:hover { background: #0056b3; }
-    </style>
+
+    <script src="js/app.js"></script>
 </head>
+
 <body>
+<header class="header">
+    <section class="nav-header">
+        <div class="brand">
+            <div class="nav-toggle">
+                <img src="images/menu.png" alt="Logo" class="logo">
+            </div>
+            <span class="logo-text">TennisScoreboard</span>
+        </div>
+        <div>
+            <nav class="nav-links">
+                <a class="nav-link" href="#">Home</a>
+                <a class="nav-link" href="#">Matches</a>
+            </nav>
+        </div>
+    </section>
+</header>
+<main>
     <div class="container">
-        <h2>Завершённые матчи</h2>
-        <form class="search-form" action="matches" method="get">
-            <input type="text" name="filter_by_player_name" placeholder="Имя игрока" value="${param.filter_by_player_name}">
-            <button type="submit">Искать</button>
-        </form>
-        <table>
+        <h1>Matches</h1>
+        <div class="input-container">
+            <input class="input-filter" placeholder="Filter by name" type="text" />
+            <div>
+                <a href="#">
+                    <button class="btn-filter">Reset Filter</button>
+                </a>
+            </div>
+        </div>
+
+        <table class="table-matches">
             <tr>
-                <th>ID</th>
-                <th>Игрок 1</th>
-                <th>Игрок 2</th>
-                <th>Победитель</th>
+                <th>Player One</th>
+                <th>Player Two</th>
+                <th>Winner</th>
             </tr>
-            <c:forEach var="match" items="${matches}">
-                <tr>
-                    <td>${match.id}</td>
-                    <td>${match.player1.name}</td>
-                    <td>${match.player2.name}</td>
-                    <td>${match.winner.name}</td>
-                </tr>
-            </c:forEach>
+            <tr>
+                <td>Rafael Nadal</td>
+                <td>Roger Federer</td>
+                <td><span class="winner-name-td">Rafael Nadal</span></td>
+            </tr>
+            <tr>
+                <td>Rafael Nadal</td>
+                <td>Roger Federer</td>
+                <td><span class="winner-name-td">Roger Federer</span></td>
+            </tr>
+            <tr>
+                <td>Rafael Nadal</td>
+                <td>Roger Federer</td>
+                <td><span class="winner-name-td">Rafael Nadal</span></td>
+            </tr>
+            <tr>
+                <td>Rafael Nadal</td>
+                <td>Roger Federer</td>
+                <td><span class="winner-name-td">Roger Federer</span></td>
+            </tr>
+            <tr>
+                <td>Rafael Nadal</td>
+                <td>Roger Federer</td>
+                <td><span class="winner-name-td">Rafael Nadal</span></td>
+            </tr>
         </table>
-        <c:if test="${empty matches}">
-            <div style="text-align:center; color:#d00;">Матчи не найдены.</div>
-        </c:if>
+
+        <div class="pagination">
+            <a class="prev" href="#"> < </a>
+            <a class="num-page current" href="#">1</a>
+            <a class="num-page" href="#">2</a>
+            <a class="num-page" href="#">3</a>
+            <a class="next" href="#"> > </a>
+        </div>
     </div>
+</main>
+<footer>
+    <div class="footer">
+        <p>&copy; Tennis Scoreboard, project from <a href="https://zhukovsd.github.io/java-backend-learning-course/">zhukovsd/java-backend-learning-course</a>
+            roadmap.</p>
+    </div>
+</footer>
 </body>
 </html>

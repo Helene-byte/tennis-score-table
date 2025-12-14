@@ -1,68 +1,79 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html lang="en">
+<%@ taglib uri="http://jakarta.ee/jstl/core" prefix="c" %>
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Match Score</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tennis Scoreboard | Match Score</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    <style>
-        .container { max-width: 500px; margin: 40px auto; background: #fff; padding: 24px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);}
-        h2 { text-align: center; }
-        table { width: 100%; border-collapse: collapse; margin-bottom: 20px;}
-        th, td { border: 1px solid #ccc; padding: 8px; text-align: center;}
-        .actions { display: flex; gap: 10px; justify-content: center;}
-        .winner { color: green; font-weight: bold;}
-    </style>
+
+    <script src="js/app.js"></script>
 </head>
 <body>
+<header class="header">
+    <section class="nav-header">
+        <div class="brand">
+            <div class="nav-toggle">
+                <img src="images/menu.png" alt="Logo" class="logo">
+            </div>
+            <span class="logo-text">TennisScoreboard</span>
+        </div>
+        <div>
+            <nav class="nav-links">
+                <a class="nav-link" href="#">Home</a>
+                <a class="nav-link" href="#">Matches</a>
+            </nav>
+        </div>
+    </section>
+</header>
+<main>
     <div class="container">
-        <h2>Match Score</h2>
-        <table>
-            <tr>
-                <th>Player</th>
-                <th>Sets</th>
-                <th>Games</th>
-                <th>Points</th>
-                <th>Tie-break</th>
-            </tr>
-            <tr>
-                <td>${player1Name}</td>
-                <td>${score.player1Sets}</td>
-                <td>${score.player1Games}</td>
-                <td>${score.player1Points}</td>
-                <td>${score.player1TieBreakPoints}</td>
-            </tr>
-            <tr>
-                <td>${player2Name}</td>
-                <td>${score.player2Sets}</td>
-                <td>${score.player2Games}</td>
-                <td>${score.player2Points}</td>
-                <td>${score.player2TieBreakPoints}</td>
-            </tr>
-        </table>
-
-        <c:if test="${not score.finished}">
-            <div class="actions">
-                <form action="match-score?uuid=${matchId}" method="post" style="display:inline;">
-                    <input type="hidden" name="winner" value="1"/>
-                    <button type="submit">${player1Name} выиграл очко</button>
-                </form>
-                <form action="match-score?uuid=${matchId}" method="post" style="display:inline;">
-                    <input type="hidden" name="winner" value="2"/>
-                    <button type="submit">${player2Name} выиграл очко</button>
-                </form>
-            </div>
-        </c:if>
-        <c:if test="${score.finished}">
-            <div class="winner">
-                Матч завершён! Победитель:
-                <c:choose>
-                    <c:when test="${score.winner == 1}">${player1Name}</c:when>
-                    <c:otherwise>${player2Name}</c:otherwise>
-                </c:choose>
-            </div>
-        </c:if>
+        <h1>Current match</h1>
+        <div class="current-match-image"></div>
+        <section class="score">
+            <table class="table">
+                <thead class="result">
+                <tr>
+                    <th class="table-text">Player</th>
+                    <th class="table-text">Sets</th>
+                    <th class="table-text">Games</th>
+                    <th class="table-text">Points</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="player1">
+                    <td class="table-text">Rafael Nadal</td>
+                    <td class="table-text">2</td>
+                    <td class="table-text">4</td>
+                    <td class="table-text">40</td>
+                    <td class="table-text">
+                        <div class="score-btn">Score</div>
+                    </td>
+                </tr>
+                <tr class="player2">
+                    <td class="table-text">Roger Federer</td>
+                    <td class="table-text">2</td>
+                    <td class="table-text">3</td>
+                    <td class="table-text">15</td>
+                    <td class="table-text">
+                        <div class="score-btn">Score</div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
     </div>
+</main>
+<footer>
+    <div class="footer">
+        <p>&copy; Tennis Scoreboard, project from <a href="https://zhukovsd.github.io/java-backend-learning-course/">zhukovsd/java-backend-learning-course</a> roadmap.</p>
+    </div>
+</footer>
 </body>
 </html>

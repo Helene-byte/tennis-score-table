@@ -18,12 +18,13 @@ import java.util.UUID;
 
 @WebServlet("/new-match")
 public class NewMatchServlet extends HttpServlet {
-    private OngoingMatchesService ongoingMatchesService = new OngoingMatchesService();
     private PlayerDao playerDao;
+    private OngoingMatchesService ongoingMatchesService;
 
     @Override
     public void init() throws ServletException {
         SessionFactory sessionFactory = (SessionFactory) getServletContext().getAttribute("sessionFactory");
+        ongoingMatchesService = (OngoingMatchesService) getServletContext().getAttribute("ongoingMatchesService");
         playerDao = new PlayerDaoImpl(sessionFactory);
     }
 

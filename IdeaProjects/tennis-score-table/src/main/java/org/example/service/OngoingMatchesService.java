@@ -1,6 +1,6 @@
 package org.example.service;
 
-import org.example.model.dto.MatchScoreModel;
+import org.example.model.dto.MatchScore;
 import org.example.model.dto.OngoingMatch;
 import org.example.entity.Match;
 
@@ -12,7 +12,7 @@ public class OngoingMatchesService {
     private final Map<UUID, OngoingMatch> ongoingMatches = new ConcurrentHashMap<>();
 
     public UUID createMatch(Match match) {
-        MatchScoreModel score = new MatchScoreModel();
+        MatchScore score = new MatchScore();
         OngoingMatch ongoingMatch = new OngoingMatch(match, score);
         UUID matchId = UUID.randomUUID();
         ongoingMatches.put(matchId, ongoingMatch);
