@@ -21,5 +21,12 @@
         <url-pattern>/new-match</url-pattern>
     </servlet-mapping>
     -->
-
+    <servlet>
+        <servlet-name>TestJspServlet</servlet-name>
+        <servlet-class>org.example.servlet.TestJspServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TestJspServlet</servlet-name>
+        <url-pattern>/test-jsp</url-pattern>
+    </servlet-mapping>
 </web-app>

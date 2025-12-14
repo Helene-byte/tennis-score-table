@@ -23,7 +23,7 @@ public class MatchesServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String playerName = req.getParameter("filter_by_player_name");
         List<Match> matches;
         if (playerName != null && !playerName.trim().isEmpty()) {
@@ -31,6 +31,6 @@ public class MatchesServlet extends HttpServlet {
         } else {
             matches = searchService.findAllMatches();
         }
-        new com.fasterxml.jackson.databind.ObjectMapper().writeValue(resp.getWriter(), matches);
+        req.getRequestDispatcher("/WEB-INF/jsp/matches.jsp").forward(req, resp);
     }
 }
