@@ -34,54 +34,33 @@
     <div class="container">
         <h1>Matches</h1>
         <div class="input-container">
-            <input class="input-filter" placeholder="Filter by name" type="text" />
-            <div>
-                <a href="#">
-                    <button class="btn-filter">Reset Filter</button>
-                </a>
-            </div>
-        </div>
+                    <form method="get" action="${pageContext.request.contextPath}/matches">
+                        <input class="input-filter" name="filter_by_player_name"
+                               value="${filter_by_player_name}" placeholder="Filter by name" type="text" />
+                        <button class="btn-filter" type="submit">Search</button>
+                        <a href="${pageContext.request.contextPath}/matches">
+                            <button class="btn-filter" type="button">Reset Filter</button>
+                        </a>
+                    </form>
+                </div>
 
         <table class="table-matches">
-            <tr>
-                <th>Player One</th>
-                <th>Player Two</th>
-                <th>Winner</th>
-            </tr>
-            <tr>
-                <td>Rafael Nadal</td>
-                <td>Roger Federer</td>
-                <td><span class="winner-name-td">Rafael Nadal</span></td>
-            </tr>
-            <tr>
-                <td>Rafael Nadal</td>
-                <td>Roger Federer</td>
-                <td><span class="winner-name-td">Roger Federer</span></td>
-            </tr>
-            <tr>
-                <td>Rafael Nadal</td>
-                <td>Roger Federer</td>
-                <td><span class="winner-name-td">Rafael Nadal</span></td>
-            </tr>
-            <tr>
-                <td>Rafael Nadal</td>
-                <td>Roger Federer</td>
-                <td><span class="winner-name-td">Roger Federer</span></td>
-            </tr>
-            <tr>
-                <td>Rafael Nadal</td>
-                <td>Roger Federer</td>
-                <td><span class="winner-name-td">Rafael Nadal</span></td>
-            </tr>
+           <tr>
+                          <th>Player One</th>
+                          <th>Player Two</th>
+                          <th>Winner</th>
+                      </tr>
+                      <c:forEach var="match" items="${matches}">
+                          <tr>
+                              <td>${match.player1.name}</td>
+                              <td>${match.player2.name}</td>
+                              <td><span class="winner-name-td">${match.winner.name}</span></td>
+                          </tr>
+                      </c:forEach>
         </table>
 
-        <div class="pagination">
-            <a class="prev" href="#"> < </a>
-            <a class="num-page current" href="#">1</a>
-            <a class="num-page" href="#">2</a>
-            <a class="num-page" href="#">3</a>
-            <a class="next" href="#"> > </a>
-        </div>
+       <!-- Pagination can be added later! -->
+
     </div>
 </main>
 <footer>
