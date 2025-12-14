@@ -29,6 +29,11 @@ public class NewMatchServlet extends HttpServlet {
     }
 
     @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("/WEB-INF/jsp/new-match.jsp").forward(req, resp);
+    }
+
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String playerOneName = req.getParameter("playerOneName");
         String playerTwoName = req.getParameter("playerTwoName");

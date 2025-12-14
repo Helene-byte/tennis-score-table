@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://jakarta.ee/jstl/core" prefix="c" %>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -18,7 +18,7 @@
     <section class="nav-header">
         <div class="brand">
             <div class="nav-toggle">
-                <img src="images/menu.png" alt="Logo" class="logo">
+                <img src="${pageContext.request.contextPath}/images/menu.png" alt="Logo" class="logo">
             </div>
             <span class="logo-text">TennisScoreboard</span>
         </div>

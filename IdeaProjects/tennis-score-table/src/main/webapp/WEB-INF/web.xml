@@ -7,7 +7,7 @@
 
     <!-- Welcome file (default page) -->
     <welcome-file-list>
-        <welcome-file>new-match.jsp</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 
     <!-- Example servlet mapping (if you use servlets) -->
@@ -21,12 +21,4 @@
         <url-pattern>/new-match</url-pattern>
     </servlet-mapping>
     -->
-    <servlet>
-        <servlet-name>TestJspServlet</servlet-name>
-        <servlet-class>org.example.servlet.TestJspServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>TestJspServlet</servlet-name>
-        <url-pattern>/test-jsp</url-pattern>
-    </servlet-mapping>
 </web-app>
