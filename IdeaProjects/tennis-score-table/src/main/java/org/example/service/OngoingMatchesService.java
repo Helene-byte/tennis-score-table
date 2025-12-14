@@ -2,7 +2,7 @@ package org.example.service;
 
 import org.example.model.dto.MatchScoreModel;
 import org.example.model.dto.OngoingMatch;
-import org.example.model.entity.Match;
+import org.example.entity.Match;
 
 import java.util.Map;
 import java.util.UUID;

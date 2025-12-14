@@ -7,11 +7,8 @@ import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.example.exception.*;
 import org.example.model.dto.ErrorResponseDto;
-import org.example.exception.DatabaseOperationException;
-import org.example.exception.EntityExistsException;
-import org.example.exception.InvalidParameterException;
-import org.example.exception.NotFoundException;
 
 import java.io.IOException;
 
@@ -33,7 +30,7 @@ public class ExceptionHandlingFilter extends HttpFilter {
         catch (EntityExistsException e) {
             writeErrorResponse(res, SC_CONFLICT, e);
         }
-        catch (InvalidParameterException e) {
+        catch (InvalidParameterException | BadRequestException e) {
             writeErrorResponse(res, SC_BAD_REQUEST, e);
         }
         catch (NotFoundException e) {

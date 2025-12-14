@@ -2,9 +2,10 @@ package org.example.util;
 
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
+import jakarta.servlet.annotation.WebListener;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-
+@WebListener
 public class HibernateContextListener implements ServletContextListener {
     private SessionFactory sessionFactory;
 

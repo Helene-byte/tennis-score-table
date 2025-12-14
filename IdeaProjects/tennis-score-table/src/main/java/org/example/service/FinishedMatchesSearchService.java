@@ -2,7 +2,7 @@ package org.example.service;
 
 import org.example.dao.MatchDao;
 import org.example.dao.MatchDaoImpl;
-import org.example.model.entity.Match;
+import org.example.entity.Match;
 import org.hibernate.SessionFactory;
 
 import java.util.List;

@@ -7,8 +7,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.dao.PlayerDao;
 import org.example.dao.PlayerDaoImpl;
-import org.example.model.entity.Match;
-import org.example.model.entity.Player;
+import org.example.entity.Match;
+import org.example.entity.Player;
 import org.example.service.OngoingMatchesService;
 import org.hibernate.SessionFactory;
 

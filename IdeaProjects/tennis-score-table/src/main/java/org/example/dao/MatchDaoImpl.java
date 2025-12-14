@@ -1,6 +1,6 @@
 package org.example.dao;
 
-import org.example.model.entity.Match;
+import org.example.entity.Match;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 

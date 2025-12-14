@@ -1,7 +1,7 @@
 package org.example.model.dto;
 
 import lombok.Data;
-import org.example.model.entity.Match;
+import org.example.entity.Match;
 
 @Data
 public class OngoingMatch {
