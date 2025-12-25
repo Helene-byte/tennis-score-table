@@ -5,7 +5,7 @@ COPY . .
 RUN mvn clean package -DskipTests
 
 # Use Tomcat to run the WAR
-FROM tomcat:9.0-jdk17
+FROM tomcat:10.1.50-jdk17
 RUN rm -rf /usr/local/tomcat/webapps/*
 COPY --from=build /app/target/*.war /usr/local/tomcat/webapps/ROOT.war
 EXPOSE 8080
