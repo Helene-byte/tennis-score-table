@@ -13,6 +13,7 @@ import org.example.service.OngoingMatchesService;
 import org.hibernate.SessionFactory;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.UUID;
 
 @WebServlet("/match-score")
@@ -28,7 +29,7 @@ public class MatchScoreServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String uuidStr = req.getParameter("uuid");
         if (uuidStr == null || uuidStr.isEmpty()) {
             throw new BadRequestException("Missing or empty uuid parameter");
@@ -38,15 +39,20 @@ public class MatchScoreServlet extends HttpServlet {
         OngoingMatch ongoingMatch = ongoingMatchesService.getOngoingMatch(matchId);
         if (ongoingMatch == null) {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            resp.getWriter().write("{\"error\": \"Match not found\"}");
+            req.setAttribute("error", "Match not found");
+            req.getRequestDispatcher("/WEB-INF/jsp/match-score.jsp").forward(req, resp);
             return;
         }
         MatchScore score = ongoingMatch.getScore();
-        new com.fasterxml.jackson.databind.ObjectMapper().writeValue(resp.getWriter(), score);
+
+        // Передаём данные в JSP
+        req.setAttribute("score", score);
+        req.setAttribute("match", ongoingMatch.getMatch());
+        req.getRequestDispatcher("/WEB-INF/jsp/match-score.jsp").forward(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String uuidStr = req.getParameter("uuid");
         UUID matchId = UUID.fromString(uuidStr);
         int winner = Integer.parseInt(req.getParameter("winner"));
@@ -66,10 +72,15 @@ public class MatchScoreServlet extends HttpServlet {
             ongoingMatch.getMatch().setWinner(
                     winner == 1 ? ongoingMatch.getMatch().getPlayer1() : ongoingMatch.getMatch().getPlayer2()
             );
+            String player1 = ongoingMatch.getMatch().getPlayer1().getName();
             finishedMatchesService.saveFinishedMatch(ongoingMatch.getMatch());
             ongoingMatchesService.removeMatch(matchId);
+            resp.sendRedirect(req.getContextPath() + "/matches?filter_by_player_name=" + URLEncoder.encode(player1, "UTF-8"));
+            return;
         }
 
-        new com.fasterxml.jackson.databind.ObjectMapper().writeValue(resp.getWriter(), score);
+        req.setAttribute("score", score);
+        req.setAttribute("match", ongoingMatch.getMatch());
+        req.getRequestDispatcher("/WEB-INF/jsp/match-score.jsp").forward(req, resp);
     }
 }

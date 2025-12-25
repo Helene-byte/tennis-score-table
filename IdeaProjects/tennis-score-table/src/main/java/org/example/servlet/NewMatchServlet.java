@@ -54,6 +54,6 @@ public class NewMatchServlet extends HttpServlet {
 
         UUID matchId = ongoingMatchesService.createMatch(match);
 
-        resp.getWriter().write("{\"matchId\": \"" + matchId + "\"}");
+        resp.sendRedirect(req.getContextPath() + "/match-score?uuid=" + matchId);
     }
 }

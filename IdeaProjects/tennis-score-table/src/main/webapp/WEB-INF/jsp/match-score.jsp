@@ -11,23 +11,23 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 
-    <script src="js/app.js"></script>
+    <script src="${pageContext.request.contextPath}/js/app.js"></script>
 </head>
 <body>
 <header class="header">
     <section class="nav-header">
         <div class="brand">
             <div class="nav-toggle">
-                <img src="images/menu.png" alt="Logo" class="logo">
+                <img src="${pageContext.request.contextPath}/images/menu.png" alt="Logo" class="logo">
             </div>
             <span class="logo-text">TennisScoreboard</span>
         </div>
         <div>
             <nav class="nav-links">
-                <a class="nav-link" href="#">Home</a>
-                <a class="nav-link" href="#">Matches</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}">Home</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/matches">Matches</a>
             </nav>
         </div>
     </section>
@@ -48,21 +48,27 @@
                 </thead>
                 <tbody>
                 <tr class="player1">
-                    <td class="table-text">Rafael Nadal</td>
-                    <td class="table-text">2</td>
-                    <td class="table-text">4</td>
-                    <td class="table-text">40</td>
-                    <td class="table-text">
-                        <div class="score-btn">Score</div>
+                    <td class="table-text">${match.player1.name}</td>
+                        <td class="table-text">${score.player1.sets}</td>
+                        <td class="table-text">${score.player1.games}</td>
+                        <td class="table-text">${score.player1.points}</td>
+                        <td class="table-text">
+                        <form method="post" action="${pageContext.request.contextPath}/match-score?uuid=${param.uuid}">
+                        <input type="hidden" name="winner" value="1"/>
+                        <button type="submit" class="score-btn">Score</button>
+                        </form>
                     </td>
                 </tr>
                 <tr class="player2">
-                    <td class="table-text">Roger Federer</td>
-                    <td class="table-text">2</td>
-                    <td class="table-text">3</td>
-                    <td class="table-text">15</td>
-                    <td class="table-text">
-                        <div class="score-btn">Score</div>
+                     <td class="table-text">${match.player2.name}</td>
+                        <td class="table-text">${score.player2.sets}</td>
+                        <td class="table-text">${score.player2.games}</td>
+                        <td class="table-text">${score.player2.points}</td>
+                        <td class="table-text">
+                        <form method="post" action="${pageContext.request.contextPath}/match-score?uuid=${param.uuid}">
+                        <input type="hidden" name="winner" value="2"/>
+                        <button type="submit" class="score-btn">Score</button>
+                         </form>
                     </td>
                 </tr>
                 </tbody>
