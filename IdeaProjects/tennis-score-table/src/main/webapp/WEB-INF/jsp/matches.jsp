@@ -58,7 +58,6 @@
                           </tr>
                       </c:forEach>
         </table>
-
        <!-- Pagination can be added later! -->
 
     </div>
