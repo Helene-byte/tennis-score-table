@@ -22,7 +22,7 @@ public class NewMatchServlet extends HttpServlet {
     private OngoingMatchesService ongoingMatchesService;
 
     @Override
-    public void init() throws ServletException {
+    public void init() {
         SessionFactory sessionFactory = (SessionFactory) getServletContext().getAttribute("sessionFactory");
         ongoingMatchesService = (OngoingMatchesService) getServletContext().getAttribute("ongoingMatchesService");
         playerDao = new PlayerDaoImpl(sessionFactory);
@@ -34,9 +34,16 @@ public class NewMatchServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String playerOneName = req.getParameter("playerOneName");
         String playerTwoName = req.getParameter("playerTwoName");
+// Проверка: имена не должны совпадать (без учёта регистра и пробелов)
+        if (playerOneName != null && playerTwoName != null &&
+                playerOneName.trim().equalsIgnoreCase(playerTwoName.trim())) {
+            req.setAttribute("error", "Игрок не может играть сам с собой!");
+            req.getRequestDispatcher("/WEB-INF/jsp/new-match.jsp").forward(req, resp);
+            return;
+        }
 
         Optional<Player> player1Opt = playerDao.findByName(playerOneName);
         Optional<Player> player2Opt = playerDao.findByName(playerTwoName);
