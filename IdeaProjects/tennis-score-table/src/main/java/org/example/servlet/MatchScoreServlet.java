@@ -66,9 +66,7 @@ public class MatchScoreServlet extends HttpServlet {
         MatchScore score = ongoingMatch.getScore();
         score.pointWon(winner);
 
-        // --- NEW: Save finished match to DB and remove from ongoing matches ---
         if (score.isFinished()) {
-            // Set the winner in the Match entity if needed
             ongoingMatch.getMatch().setWinner(
                     winner == 1 ? ongoingMatch.getMatch().getPlayer1() : ongoingMatch.getMatch().getPlayer2()
             );
