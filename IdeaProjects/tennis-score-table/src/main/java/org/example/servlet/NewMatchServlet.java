@@ -37,7 +37,7 @@ public class NewMatchServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String playerOneName = req.getParameter("playerOneName");
         String playerTwoName = req.getParameter("playerTwoName");
-// Проверка: имена не должны совпадать (без учёта регистра и пробелов)
+
         if (playerOneName != null && playerTwoName != null &&
                 playerOneName.trim().equalsIgnoreCase(playerTwoName.trim())) {
             req.setAttribute("error", "Игрок не может играть сам с собой!");
@@ -60,7 +60,8 @@ public class NewMatchServlet extends HttpServlet {
         match.setPlayer2(player2Opt.get());
 
         UUID matchId = ongoingMatchesService.createMatch(match);
-
+        System.out.println("NewMatchServlet: doPost called");
+        System.out.println("Redirecting to: " + req.getContextPath() + "/match-score?uuid=" + matchId);
         resp.sendRedirect(req.getContextPath() + "/match-score?uuid=" + matchId);
     }
 }

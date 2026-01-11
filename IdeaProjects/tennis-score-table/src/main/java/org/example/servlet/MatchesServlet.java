@@ -17,7 +17,7 @@ public class MatchesServlet extends HttpServlet {
     private FinishedMatchesSearchService searchService;
 
     @Override
-    public void init() throws ServletException {
+    public void init() {
         SessionFactory sessionFactory = (SessionFactory) getServletContext().getAttribute("sessionFactory");
         this.searchService = new FinishedMatchesSearchService(sessionFactory);
     }
@@ -31,7 +31,10 @@ public class MatchesServlet extends HttpServlet {
         } else {
             matches = searchService.findAllMatches();
         }
-
+        System.out.println("MatchesServlet: doGet called");
+        System.out.println("Request URI: " + req.getRequestURI());
+        System.out.println("Context Path: " + req.getContextPath());
+        System.out.println("Filter param: " + req.getParameter("filter_by_player_name"));
         req.setAttribute("matches", matches);
         req.getRequestDispatcher("/WEB-INF/jsp/matches.jsp").forward(req, resp);
     }

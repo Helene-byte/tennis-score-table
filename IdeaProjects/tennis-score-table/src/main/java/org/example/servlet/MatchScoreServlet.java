@@ -14,6 +14,7 @@ import org.hibernate.SessionFactory;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 @WebServlet("/match-score")
@@ -22,7 +23,7 @@ public class MatchScoreServlet extends HttpServlet {
     private OngoingMatchesService ongoingMatchesService;
     private FinishedMatchesPersistenceService finishedMatchesService;
     @Override
-    public void init() throws ServletException {
+    public void init() {
         ongoingMatchesService = (OngoingMatchesService) getServletContext().getAttribute("ongoingMatchesService");
         SessionFactory sessionFactory = (SessionFactory) getServletContext().getAttribute("sessionFactory");
         finishedMatchesService = new FinishedMatchesPersistenceService(sessionFactory);
@@ -73,7 +74,13 @@ public class MatchScoreServlet extends HttpServlet {
             String player1 = ongoingMatch.getMatch().getPlayer1().getName();
             finishedMatchesService.saveFinishedMatch(ongoingMatch.getMatch());
             ongoingMatchesService.removeMatch(matchId);
-            resp.sendRedirect(req.getContextPath() + "/matches?filter_by_player_name=" + URLEncoder.encode(player1, "UTF-8"));
+            System.out.println("MatchScoreServlet: doPost called");
+            System.out.println("Request URI: " + req.getRequestURI());
+            System.out.println("Context Path: " + req.getContextPath());
+            System.out.println("UUID param: " + req.getParameter("uuid"));
+            System.out.println("Winner param: " + req.getParameter("winner"));
+            System.out.println("Redirecting to: " + req.getContextPath() + "/matches?filter_by_player_name=");
+            resp.sendRedirect(req.getContextPath() + "/matches?filter_by_player_name=" + URLEncoder.encode(player1, StandardCharsets.UTF_8));
             return;
         }
 
