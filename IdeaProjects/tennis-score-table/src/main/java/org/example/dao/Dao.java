@@ -8,4 +8,7 @@ public interface Dao<T, ID> {
     T save(T entity);
     Optional<T> findById(ID id);
     List<T> findAll();
+
+    List<T> findAll(int offset, int limit);
+    int countAll();
 }

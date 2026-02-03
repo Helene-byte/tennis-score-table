@@ -37,4 +37,22 @@ public class AbstractDao <T, ID> implements Dao<T, ID> {
             }
         }
 
+    @Override
+    public List<T> findAll(int offset, int limit) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("FROM " + entityClass.getSimpleName(), entityClass)
+                    .setFirstResult(offset)
+                    .setMaxResults(limit)
+                    .list();
+        }
+    }
+
+    @Override
+    public int countAll() {
+        try (Session session = sessionFactory.openSession()) {
+            Long count = session.createQuery("SELECT COUNT(e) FROM " + entityClass.getSimpleName() + " e", Long.class)
+                    .uniqueResult();
+            return count != null ? count.intValue() : 0;
+        }
+    }
 }

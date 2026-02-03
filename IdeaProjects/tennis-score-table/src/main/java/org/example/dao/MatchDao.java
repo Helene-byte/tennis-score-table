@@ -6,5 +6,7 @@ import java.util.List;
 
 public interface MatchDao extends Dao<Match, Integer> {
 
-    List<Match> findByPlayerName(String playerName);
+    List<Match> findMatches(String playerName, int offset, int limit);
+    int countMatches(String playerName);
+
 }

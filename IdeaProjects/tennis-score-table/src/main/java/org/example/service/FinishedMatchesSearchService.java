@@ -14,10 +14,15 @@ public class FinishedMatchesSearchService {
         this.matchDao = new MatchDaoImpl(sessionFactory);
     }
 
-    public List<Match> findMatchesByPlayerName(String playerName) {
-        return matchDao.findByPlayerName(playerName);
+    public List<Match> findMatches(String playerName, int offset, int limit) {
+        return matchDao.findMatches(playerName, offset, limit);
     }
 
+    public int countMatches(String playerName) {
+        return matchDao.countMatches(playerName);
+    }
+
+    // Если нужно получить все матчи без пагинации (например, для админки)
     public List<Match> findAllMatches() {
         return matchDao.findAll();
     }

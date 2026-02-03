@@ -36,7 +36,7 @@
         <div class="input-container">
                     <form method="get" action="${pageContext.request.contextPath}/matches">
                         <input class="input-filter" name="filter_by_player_name"
-                               value="${filter_by_player_name}" placeholder="Filter by name" type="text" />
+                               value="${filter}" placeholder="Filter by name" type="text" />
                         <button class="btn-filter" type="submit">Search</button>
                         <a href="${pageContext.request.contextPath}/matches">
                             <button class="btn-filter" type="button">Reset Filter</button>
@@ -58,7 +58,15 @@
                           </tr>
                       </c:forEach>
         </table>
-       <!-- Pagination can be added later! -->
+       <div class="pagination" style="margin-top: 20px;">
+           <c:if test="${currentPage > 1}">
+               <a href="${pageContext.request.contextPath}/matches?page=${currentPage-1}&filter_by_player_name=${filter}" class="btn-filter">Prev</a>
+           </c:if>
+           <span style="margin: 0 10px;">Page ${currentPage} of ${totalPages}</span>
+           <c:if test="${currentPage < totalPages}">
+               <a href="${pageContext.request.contextPath}/matches?page=${currentPage+1}&filter_by_player_name=${filter}" class="btn-filter">Next</a>
+           </c:if>
+       </div>
 
     </div>
 </main>
