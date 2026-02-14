@@ -50,14 +50,7 @@ public class MatchesServlet extends HttpServlet {
                 (playerName != null && !playerName.trim().isEmpty()) ? playerName.trim() : null
         );
         int totalPages = (int) Math.ceil((double) totalMatches / pageSize);
-       //TODO remove
-        System.out.println("MatchesServlet: doGet called");
-        System.out.println("Request URI: " + req.getRequestURI());
-        System.out.println("Context Path: " + req.getContextPath());
-        System.out.println("Filter param: " + playerName);
-        System.out.println("Page param: " + page);
-        System.out.println("Total matches: " + totalMatches);
-        System.out.println("Total pages: " + totalPages);
+
         req.setAttribute("matches", matches);
         req.setAttribute("currentPage", page);
         req.setAttribute("totalPages", totalPages);

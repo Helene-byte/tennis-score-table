@@ -19,11 +19,11 @@ public class MatchCreationService {
         if (playerOneName.equalsIgnoreCase(playerTwoName)) {
             throw new IllegalArgumentException("Игрок не может играть сам с собой!");
         }
-        Player player1 = playerDao.findByName(playerOneName).orElseGet(() -> playerDao.save(new Player(null, playerOneName)));
-        Player player2 = playerDao.findByName(playerTwoName).orElseGet(() -> playerDao.save(new Player(null, playerTwoName)));
+        Player firstPlayer = playerDao.findByName(playerOneName).orElseGet(() -> playerDao.save(new Player(null, playerOneName)));
+        Player secondPlayer = playerDao.findByName(playerTwoName).orElseGet(() -> playerDao.save(new Player(null, playerTwoName)));
         Match match = new Match();
-        match.setPlayer1(player1);
-        match.setPlayer2(player2);
+        match.setPlayer1(firstPlayer);
+        match.setPlayer2(secondPlayer);
         return ongoingMatchesService.createMatch(match);
     }
 }

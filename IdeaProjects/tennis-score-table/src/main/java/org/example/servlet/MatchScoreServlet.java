@@ -75,13 +75,6 @@ public class MatchScoreServlet extends HttpServlet {
             finishedMatchesService.saveFinishedMatch(ongoingMatch.getMatch());
             ongoingMatchesService.removeMatch(matchId);
 
-            // TODO remove
-            System.out.println("MatchScoreServlet: doPost called");
-            System.out.println("Request URI: " + req.getRequestURI());
-            System.out.println("Context Path: " + req.getContextPath());
-            System.out.println("UUID param: " + req.getParameter("uuid"));
-            System.out.println("Winner param: " + req.getParameter("winner"));
-            System.out.println("Redirecting to: " + req.getContextPath() + "/matches?filter_by_player_name=");
             resp.sendRedirect(req.getContextPath() + "/matches?filter_by_player_name=" + URLEncoder.encode(player1, StandardCharsets.UTF_8));
             return;
         }
