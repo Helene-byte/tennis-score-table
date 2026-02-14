@@ -74,6 +74,8 @@ public class MatchScoreServlet extends HttpServlet {
             String player1 = ongoingMatch.getMatch().getPlayer1().getName();
             finishedMatchesService.saveFinishedMatch(ongoingMatch.getMatch());
             ongoingMatchesService.removeMatch(matchId);
+
+            // TODO remove
             System.out.println("MatchScoreServlet: doPost called");
             System.out.println("Request URI: " + req.getRequestURI());
             System.out.println("Context Path: " + req.getContextPath());
