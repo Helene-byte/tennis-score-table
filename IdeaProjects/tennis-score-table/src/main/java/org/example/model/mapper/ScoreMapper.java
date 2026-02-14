@@ -1,0 +1,13 @@
+package org.example.model.mapper;
+
+import org.example.model.dto.MatchScore;
+import org.example.model.dto.ScoreDto;
+import org.modelmapper.ModelMapper;
+
+public class ScoreMapper {
+    private static final ModelMapper modelMapper = new ModelMapper();
+
+    public static ScoreDto convertToDto(MatchScore score) {
+        return modelMapper.map(score, ScoreDto.class);
+    }
+}

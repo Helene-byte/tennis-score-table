@@ -8,11 +8,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 
+    <script>
+        // Make contextPath and uuid available to JS <!-- UPDATED -->
+        const contextPath = '${pageContext.request.contextPath}';
+        const uuid = '${uuid}';
+    </script>
     <script src="${pageContext.request.contextPath}/js/app.js"></script>
 </head>
 <body>
@@ -44,35 +47,45 @@
                     <th class="table-text">Sets</th>
                     <th class="table-text">Games</th>
                     <th class="table-text">Points</th>
+                    <th class="table-text">Action</th> <!-- UPDATED -->
                 </tr>
                 </thead>
                 <tbody>
                 <tr class="player1">
                     <td class="table-text">${match.player1.name}</td>
-                        <td class="table-text">${score.player1.sets}</td>
-                        <td class="table-text">${score.player1.games}</td>
-                        <td class="table-text">${score.player1.points}</td>
-                        <td class="table-text">
-                        <form method="post" action="${pageContext.request.contextPath}/match-score?uuid=${param.uuid}">
-                        <input type="hidden" name="winner" value="1"/>
-                        <button type="submit" class="score-btn">Score</button>
-                        </form>
+                    <td class="table-text" id="player1-sets">${score.player1.sets}</td> <!-- UPDATED -->
+                    <td class="table-text" id="player1-games">${score.player1.games}</td> <!-- UPDATED -->
+                    <td class="table-text" id="player1-points">${score.player1.points}</td> <!-- UPDATED -->
+                    <td class="table-text">
+                        <c:choose>
+                            <c:when test="${score.finished}">
+                                <div class="disabled-btn">Match is finished</div> <!-- UPDATED -->
+                            </c:when>
+                            <c:otherwise>
+                                <button type="button" class="score-btn" onclick="scorePoint(${match.player1.id})">Score</button> <!-- UPDATED -->
+                            </c:otherwise>
+                        </c:choose>
                     </td>
                 </tr>
                 <tr class="player2">
-                     <td class="table-text">${match.player2.name}</td>
-                        <td class="table-text">${score.player2.sets}</td>
-                        <td class="table-text">${score.player2.games}</td>
-                        <td class="table-text">${score.player2.points}</td>
-                        <td class="table-text">
-                        <form method="post" action="${pageContext.request.contextPath}/match-score?uuid=${param.uuid}">
-                        <input type="hidden" name="winner" value="2"/>
-                        <button type="submit" class="score-btn">Score</button>
-                         </form>
+                    <td class="table-text">${match.player2.name}</td>
+                    <td class="table-text" id="player2-sets">${score.player2.sets}</td> <!-- UPDATED -->
+                    <td class="table-text" id="player2-games">${score.player2.games}</td> <!-- UPDATED -->
+                    <td class="table-text" id="player2-points">${score.player2.points}</td> <!-- UPDATED -->
+                    <td class="table-text">
+                        <c:choose>
+                            <c:when test="${score.finished}">
+                                <div class="disabled-btn">Match is finished</div> <!-- UPDATED -->
+                            </c:when>
+                            <c:otherwise>
+                                <button type="button" class="score-btn" onclick="scorePoint(${match.player2.id})">Score</button> <!-- UPDATED -->
+                            </c:otherwise>
+                        </c:choose>
                     </td>
                 </tr>
                 </tbody>
             </table>
+
         </section>
     </div>
 </main>

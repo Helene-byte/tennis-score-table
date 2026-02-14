@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MatchScore {
+public class ScoreDto {
     private PlayerScoreDto player1 = new PlayerScoreDto();
     private PlayerScoreDto player2 = new PlayerScoreDto();
     private boolean tieBreak = false;
