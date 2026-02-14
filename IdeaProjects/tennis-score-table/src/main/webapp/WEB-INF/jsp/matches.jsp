@@ -34,40 +34,48 @@
     <div class="container">
         <h1>Matches</h1>
         <div class="input-container">
-                    <form method="get" action="${pageContext.request.contextPath}/matches">
-                        <input class="input-filter" name="filter_by_player_name"
-                               value="${filter}" placeholder="Filter by name" type="text" />
-                        <button class="btn-filter" type="submit">Search</button>
-                        <a href="${pageContext.request.contextPath}/matches">
-                            <button class="btn-filter" type="button">Reset Filter</button>
-                        </a>
-                    </form>
-                </div>
+            <form method="get" action="${pageContext.request.contextPath}/matches">
+                <input class="input-filter" name="filter_by_player_name"
+                       value="${param.filter_by_player_name}" placeholder="Filter by name" type="text" /> <!-- UPDATED -->
+                <button class="btn-filter" type="submit">Search</button>
+                <a href="${pageContext.request.contextPath}/matches">
+                    <button class="btn-filter" type="button">Reset Filter</button>
+                </a>
+            </form>
+        </div>
+
+        <!-- Show not found message if present -->
+        <c:if test="${not empty matches_response_dto.notFoundMessage}"> <!-- UPDATED -->
+            <div class="error-message">${matches_response_dto.notFoundMessage}</div> <!-- UPDATED -->
+        </c:if> <!-- UPDATED -->
 
         <table class="table-matches">
-           <tr>
-                          <th>Player One</th>
-                          <th>Player Two</th>
-                          <th>Winner</th>
-                      </tr>
-                      <c:forEach var="match" items="${matches}">
-                          <tr>
-                              <td>${match.player1.name}</td>
-                              <td>${match.player2.name}</td>
-                              <td><span class="winner-name-td">${match.winner.name}</span></td>
-                          </tr>
-                      </c:forEach>
+            <tr>
+                <th>Player One</th>
+                <th>Player Two</th>
+                <th>Winner</th>
+            </tr>
+            <c:forEach var="match" items="${matches_response_dto.matches}"> <!-- UPDATED -->
+                <tr>
+                    <td>${match.player1.name}</td>
+                    <td>${match.player2.name}</td>
+                    <td><span class="winner-name-td">${match.winner.name}</span></td>
+                </tr>
+            </c:forEach>
         </table>
-       <div class="pagination" style="margin-top: 20px;">
-           <c:if test="${currentPage > 1}">
-               <a href="${pageContext.request.contextPath}/matches?page=${currentPage-1}&filter_by_player_name=${filter}" class="btn-filter">Prev</a>
-           </c:if>
-           <span style="margin: 0 10px;">Page ${currentPage} of ${totalPages}</span>
-           <c:if test="${currentPage < totalPages}">
-               <a href="${pageContext.request.contextPath}/matches?page=${currentPage+1}&filter_by_player_name=${filter}" class="btn-filter">Next</a>
-           </c:if>
-       </div>
-
+        <div class="pagination" style="margin-top: 20px;">
+            <c:if test="${matches_response_dto.currentPage > 1}"> <!-- UPDATED -->
+                <a href="${pageContext.request.contextPath}/matches?page=${matches_response_dto.currentPage-1}&filter_by_player_name=${param.filter_by_player_name}" class="btn-filter">Prev</a> <!-- UPDATED -->
+            </c:if>
+            <span style="margin: 0 10px;">Page ${matches_response_dto.currentPage} of ${matches_response_dto.lastPageNumber}</span> <!-- UPDATED -->
+            <c:if test="${matches_response_dto.currentPage < matches_response_dto.lastPageNumber}"> <!-- UPDATED -->
+                <a href="${pageContext.request.contextPath}/matches?page=${matches_response_dto.currentPage+1}&filter_by_player_name=${param.filter_by_player_name}" class="btn-filter">Next</a> <!-- UPDATED -->
+            </c:if>
+            <!-- Optional: Show page numbers for advanced pagination -->
+            <c:forEach var="pageNum" items="${matches_response_dto.pagesToShow}"> <!-- UPDATED -->
+                <a href="${pageContext.request.contextPath}/matches?page=${pageNum}&filter_by_player_name=${param.filter_by_player_name}" class="btn-filter">${pageNum}</a> <!-- UPDATED -->
+            </c:forEach> <!-- UPDATED -->
+        </div>
     </div>
 </main>
 <footer>

@@ -6,7 +6,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.entity.Match;
+import org.example.model.dto.MatchPageResult;
+import org.example.model.dto.MatchesResponseDto;
 import org.example.service.FinishedMatchesSearchService;
+import org.example.service.MatchPaginationService;
+import org.example.util.JspUtil;
+import org.example.util.ValidationUtil;
 import org.hibernate.SessionFactory;
 
 import java.io.IOException;
@@ -14,48 +19,45 @@ import java.util.List;
 
 @WebServlet("/matches")
 public class MatchesServlet extends HttpServlet {
-    private FinishedMatchesSearchService searchService;
+    private static final String MATCHES_JSP_NAME = "matches";
+    private MatchPaginationService matchPaginationService;
 
     @Override
     public void init() {
         SessionFactory sessionFactory = (SessionFactory) getServletContext().getAttribute("sessionFactory");
-        this.searchService = new FinishedMatchesSearchService(sessionFactory);
+        FinishedMatchesSearchService searchService = new FinishedMatchesSearchService(sessionFactory);
+        matchPaginationService = MatchPaginationService.getInstance(searchService);
     }
-
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        String playerName = req.getParameter("filter_by_player_name");
-        String pageParam = req.getParameter("page");
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        int page = 1;
-        if (pageParam != null) {
-            try {
-                page = Integer.parseInt(pageParam);
-            } catch (NumberFormatException e) {
-                page = 1;
+        String name = req.getParameter("filter_by_player_name");
+        int pageNumber = ValidationUtil.getValidPageNumber(req.getParameter("page"));
+
+        MatchPageResult matchPageResult;
+        String notFoundMessage = null;
+
+        if (name == null || name.isBlank()) {
+            matchPageResult = matchPaginationService.getMatchesPageAndLastPageNumber(pageNumber);
+            if (matchPageResult.matchesPage().isEmpty()) {
+                notFoundMessage = "No matches found";
+            }
+        } else {
+            name = name.trim();
+            matchPageResult = matchPaginationService.getMatchesPageAndLastPageNumberByName(name, pageNumber);
+            if (matchPageResult.matchesPage().isEmpty()) {
+                notFoundMessage = String.format("Matches with player %s not found", name);
             }
         }
-        if (page < 1) page = 1;
 
-        int pageSize = 3; // Количество матчей на страницу
-        int offset = (page - 1) * pageSize;
+        List<Match> matches = matchPageResult.matchesPage();
+        int lastPageNumber = matchPageResult.lastPageNumber();
+        List<Integer> pagesToShow = matchPaginationService.getPagesToShow(lastPageNumber, pageNumber);
 
-        // Получаем матчи и их количество с учётом фильтра
-        List<Match> matches = searchService.findMatches(
-                (playerName != null && !playerName.trim().isEmpty()) ? playerName.trim() : null,
-                offset,
-                pageSize
-        );
-        int totalMatches = searchService.countMatches(
-                (playerName != null && !playerName.trim().isEmpty()) ? playerName.trim() : null
-        );
-        int totalPages = (int) Math.ceil((double) totalMatches / pageSize);
+        MatchesResponseDto matchesResponseDto = new MatchesResponseDto(matches, notFoundMessage,
+                pagesToShow, pageNumber, lastPageNumber);
 
-        req.setAttribute("matches", matches);
-        req.setAttribute("currentPage", page);
-        req.setAttribute("totalPages", totalPages);
-        req.setAttribute("filter", playerName != null ? playerName.trim() : "");
-
-        req.getRequestDispatcher("/WEB-INF/jsp/matches.jsp").forward(req, resp);
+        req.setAttribute("matches_response_dto", matchesResponseDto);
+        req.getRequestDispatcher(JspUtil.getPath(MATCHES_JSP_NAME)).forward(req, resp);
     }
 }
