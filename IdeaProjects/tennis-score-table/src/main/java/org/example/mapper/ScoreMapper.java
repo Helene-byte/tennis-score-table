@@ -1,7 +1,7 @@
-package org.example.model.mapper;
+package org.example.mapper;
 
-import org.example.model.dto.MatchScore;
-import org.example.model.dto.ScoreDto;
+import org.example.model.MatchScore;
+import org.example.dto.ScoreDto;
 import org.modelmapper.ModelMapper;
 
 public class ScoreMapper {

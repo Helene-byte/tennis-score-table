@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.exception.*;
-import org.example.model.dto.ErrorResponseDto;
+import org.example.dto.ErrorResponseDto;
 
 import java.io.IOException;
 

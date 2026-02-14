@@ -1,5 +1,7 @@
-package org.example.model.dto;
+package org.example.dto;
 
+import org.example.model.MatchScore;
+import org.example.model.RegularGamePoints;
 import org.example.service.MatchScoreService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -7,11 +7,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import org.example.model.dto.MatchScore;
-import org.example.model.dto.ScoreDto;
-import org.example.model.mapper.ScoreMapper;
+import org.example.model.MatchScore;
+import org.example.dto.ScoreDto;
+import org.example.mapper.ScoreMapper;
 import org.example.service.MatchScoreService;
-import org.example.model.dto.OngoingMatch;
+import org.example.model.OngoingMatch;
 
 import org.example.service.FinishedMatchesPersistenceService;
 import org.example.service.OngoingMatchesService;

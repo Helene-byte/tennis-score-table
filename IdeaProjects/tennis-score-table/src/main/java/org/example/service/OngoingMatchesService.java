@@ -1,7 +1,7 @@
 package org.example.service;
 
-import org.example.model.dto.MatchScore;
-import org.example.model.dto.OngoingMatch;
+import org.example.model.MatchScore;
+import org.example.model.OngoingMatch;
 import org.example.entity.Match;
 
 import java.util.Map;

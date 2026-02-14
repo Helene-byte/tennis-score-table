@@ -1,4 +1,4 @@
-package org.example.model.dto;
+package org.example.model;
 
 import org.example.entity.Match;
 

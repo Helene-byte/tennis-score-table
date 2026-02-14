@@ -1,7 +1,7 @@
 package org.example.service;
 
 import org.example.entity.Match;
-import org.example.model.dto.MatchPageResult;
+import org.example.model.MatchPageResult;
 
 import java.util.ArrayList;
 import java.util.List;

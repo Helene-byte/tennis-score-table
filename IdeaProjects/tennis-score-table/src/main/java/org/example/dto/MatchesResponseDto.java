@@ -1,11 +1,11 @@
-package org.example.model.dto;
+package org.example.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.example.entity.Match;
 
 import java.util.List;
+
 @Data
 @AllArgsConstructor
 

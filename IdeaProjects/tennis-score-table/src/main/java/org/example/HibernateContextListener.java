@@ -1,4 +1,4 @@
-package org.example.util;
+package org.example;
 
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;

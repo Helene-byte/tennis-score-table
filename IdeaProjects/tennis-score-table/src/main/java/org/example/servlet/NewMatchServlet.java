@@ -8,8 +8,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.example.dao.PlayerDao;
 import org.example.dao.PlayerDaoImpl;
 
+import org.example.exception.InvalidParameterException;
 import org.example.service.MatchCreationService;
 import org.example.service.OngoingMatchesService;
+import org.example.util.ValidationUtil;
 import org.hibernate.SessionFactory;
 
 import java.io.IOException;
@@ -37,11 +39,11 @@ public class NewMatchServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String playerOneName = req.getParameter("playerOneName");
         String playerTwoName = req.getParameter("playerTwoName");
-
         try {
+            ValidationUtil.validate(playerOneName, playerTwoName);
             UUID matchId = matchCreationService.createNewMatch(playerOneName, playerTwoName);
             resp.sendRedirect(req.getContextPath() + "/match-score?uuid=" + matchId);
-        } catch (IllegalArgumentException e) {
+        } catch (InvalidParameterException e) {
             req.setAttribute("error", e.getMessage());
             req.getRequestDispatcher("/WEB-INF/jsp/new-match.jsp").forward(req, resp);
         }

@@ -1,13 +1,14 @@
-package org.example.model.dto;
+package org.example.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.dto.PlayerScoreDto;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ScoreDto {
+public class MatchScore {
     private PlayerScoreDto player1 = new PlayerScoreDto();
     private PlayerScoreDto player2 = new PlayerScoreDto();
     private boolean tieBreak = false;

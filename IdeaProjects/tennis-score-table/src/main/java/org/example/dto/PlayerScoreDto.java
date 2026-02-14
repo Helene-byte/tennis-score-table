@@ -1,6 +1,7 @@
-package org.example.model.dto;
+package org.example.dto;
 
 import lombok.Data;
+import org.example.model.RegularGamePoints;
 
 @Data
 public class PlayerScoreDto {
