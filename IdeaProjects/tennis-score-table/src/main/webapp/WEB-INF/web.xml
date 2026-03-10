@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                             http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+
+    <!-- Welcome file (default page) -->
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <!-- Example servlet mapping (if you use servlets) -->
+    <!--
+    <servlet>
+        <servlet-name>NewMatchServlet</servlet-name>
+        <servlet-class>controller.NewMatchServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NewMatchServlet</servlet-name>
+        <url-pattern>/new-match</url-pattern>
+    </servlet-mapping>
+    -->
+</web-app>

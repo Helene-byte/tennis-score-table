@@ -5,7 +5,7 @@
   <groupId>org.example</groupId>
   <artifactId>tennis-score-table</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
+  <packaging>war</packaging>
 
   <name>tennis-score-table</name>
   <url>http://maven.apache.org</url>
@@ -15,19 +15,20 @@
   </properties>
   <dependencies>
     <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.16.1</version>
+    </dependency>
+    <dependency>
       <groupId>jakarta.servlet</groupId>
       <artifactId>jakarta.servlet-api</artifactId>
       <version>6.0.0</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>jakarta.servlet.jsp</groupId>
-      <artifactId>jakarta.servlet.jsp-api</artifactId>
-      <version>3.1.1</version>
-    </dependency>
-    <dependency>
       <groupId>jakarta.servlet.jsp.jstl</groupId>
-      <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+      <artifactId>
+        jakarta.servlet.jsp.jstl-api</artifactId>
       <version>3.0.0</version>
     </dependency>
     <dependency>
@@ -64,6 +65,11 @@
       <version>1.18.30</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>org.modelmapper</groupId>
+      <artifactId>modelmapper</artifactId>
+      <version>3.1.1</version>
+    </dependency>
   </dependencies>
   <build>
     <finalName>TennisScoreBoard</finalName>
@@ -78,8 +84,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.11.0</version>
         <configuration>
-          <source>11</source>
-          <target>11</target>
+          <source>16</source>
+          <target>16</target>
         </configuration>
       </plugin>
     </plugins>

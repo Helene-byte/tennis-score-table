@@ -1,7 +1,7 @@
 package org.example.dao;
 
 
-import org.example.model.Player;
+import org.example.entity.Player;
 
 import java.util.Optional;
 
